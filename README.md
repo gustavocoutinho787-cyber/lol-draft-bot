@@ -17,15 +17,11 @@ essa probabilidade com as odds das casas de apostas para achar apostas de valor
 
 ```
 lol-draft-bot/
-├── src/
-│   ├── data/
-│   │   └── fetch_leaguepedia.py   # baixa partidas + drafts da Leaguepedia
-│   ├── features/
-│   │   └── build_features.py      # transforma drafts em features numéricas
-│   └── model/
-│       ├── train.py               # treina modelo de win probability
-│       └── predict.py             # roda inferência em um draft novo
-├── data/                          # dados brutos e processados (csv)
+├── fetch_leaguepedia.py   # baixa partidas + drafts da Leaguepedia
+├── build_features.py      # transforma drafts em features numéricas
+├── train.py               # treina modelo de win probability
+├── predict.py             # roda inferência em um draft novo
+├── exemplo_draft.json     # exemplo de draft para o predict.py
 ├── requirements.txt
 └── README.md
 ```
@@ -36,16 +32,16 @@ lol-draft-bot/
 pip install -r requirements.txt
 
 # 1. Baixar dados históricos de partidas da LPL
-python src/data/fetch_leaguepedia.py --league LPL --year 2024 2025
+python fetch_leaguepedia.py --league LPL --year 2024 2025
 
 # 2. Construir features a partir do draft
-python src/features/build_features.py
+python build_features.py
 
 # 3. Treinar o modelo
-python src/model/train.py
+python train.py
 
 # 4. Prever um draft específico
-python src/model/predict.py --config exemplo_draft.json
+python predict.py --config exemplo_draft.json
 ```
 
 ## Notas importantes
