@@ -24,7 +24,7 @@ from pathlib import Path
 
 import pandas as pd
 
-DATA_DIR = Path(__file__).resolve().parents[2] / "data"
+DATA_DIR = Path(__file__).resolve().parent / "data"
 
 TOP_N_CHAMPIONS = 40  # campeões menos frequentes viram "OTHER"
 
