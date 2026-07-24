@@ -18,7 +18,7 @@ from pathlib import Path
 import joblib
 import pandas as pd
 
-DATA_DIR = Path(__file__).resolve().parents[2] / "data"
+DATA_DIR = Path(__file__).resolve().parent / "data"
 MODEL_DIR = DATA_DIR / "models"
 
 

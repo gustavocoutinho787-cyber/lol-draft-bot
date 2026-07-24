@@ -24,7 +24,7 @@ from pathlib import Path
 import requests
 
 API_URL = "https://lol.fandom.com/api.php"
-DATA_DIR = Path(__file__).resolve().parents[2] / "data"
+DATA_DIR = Path(__file__).resolve().parent / "data"
 
 HEADERS = {
     "User-Agent": "lol-draft-bot/0.1 (uso pessoal, contato: preencha-seu-email)"

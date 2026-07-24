@@ -17,8 +17,8 @@ import pandas as pd
 from sklearn.metrics import accuracy_score, brier_score_loss, log_loss
 from sklearn.model_selection import TimeSeriesSplit
 
-DATA_DIR = Path(__file__).resolve().parents[2] / "data"
-MODEL_DIR = Path(__file__).resolve().parents[2] / "data" / "models"
+DATA_DIR = Path(__file__).resolve().parent / "data"
+MODEL_DIR = Path(__file__).resolve().parent / "data" / "models"
 
 
 def train(league: str):
