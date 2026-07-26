@@ -27,7 +27,14 @@ def load_model(league: str):
     return payload["model"], payload["columns"]
 
 
-def vectorize_single(team1_picks, team2_picks, columns):
+def load_champion_winrates(league: str) -> dict[str, float]:
+    path = DATA_DIR / f"champion_winrates_{league}.json"
+    if not path.exists():
+        return {}
+    return json.loads(path.read_text(encoding="utf-8"))
+
+
+def vectorize_single(team1_picks, team2_picks, columns, champion_winrates: dict[str, float]):
     row = {col: 0 for col in columns}
     for col in columns:
         if col.startswith("champ_") and col.endswith("_t1"):
@@ -36,6 +43,17 @@ def vectorize_single(team1_picks, team2_picks, columns):
         elif col.startswith("champ_") and col.endswith("_t2"):
             champ = col[len("champ_"):-len("_t2")]
             row[col] = int(champ in team2_picks)
+
+    # Campeões sem histórico (nunca vistos no treino) usam 50% como neutro.
+    if "team1_champ_wr_avg" in row:
+        row["team1_champ_wr_avg"] = sum(
+            champion_winrates.get(c, 0.5) for c in team1_picks
+        ) / len(team1_picks)
+    if "team2_champ_wr_avg" in row:
+        row["team2_champ_wr_avg"] = sum(
+            champion_winrates.get(c, 0.5) for c in team2_picks
+        ) / len(team2_picks)
+
     return pd.DataFrame([row], columns=columns)
 
 
@@ -48,7 +66,8 @@ def main():
     league = config["league"]
 
     model, columns = load_model(league)
-    X = vectorize_single(config["team1_picks"], config["team2_picks"], columns)
+    champion_winrates = load_champion_winrates(league)
+    X = vectorize_single(config["team1_picks"], config["team2_picks"], columns, champion_winrates)
 
     proba_team1 = model.predict_proba(X)[0, 1]
     print(f"Probabilidade estimada de vitória do Team1: {proba_team1:.1%}")
