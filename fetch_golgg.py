@@ -172,6 +172,13 @@ def main():
             if i % 10 == 0 or i == len(series_list):
                 print(f"  ... {i}/{len(series_list)} séries processadas ({len(all_games)} jogos até agora)")
 
+    # Ordena por data: vários torneios são passados fora de ordem cronológica
+    # (ex: playoffs de um split cruzando com o split seguinte), e train.py
+    # depende da ordem das linhas para validação respeitando o tempo.
+    order = sorted(range(len(all_games)), key=lambda i: all_games[i]["DateTime_UTC"] or "")
+    all_games = [all_games[i] for i in order]
+    all_picks_bans = [all_picks_bans[i] for i in order]
+
     games_path = DATA_DIR / f"games_{args.league}.json"
     pb_path = DATA_DIR / f"picks_bans_{args.league}.json"
     games_path.write_text(json.dumps(all_games, ensure_ascii=False, indent=2), encoding="utf-8")
