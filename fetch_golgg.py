@@ -32,13 +32,26 @@ HEADERS = {
     "User-Agent": "lol-draft-bot/0.1 (uso pessoal, contato: preencha-seu-email)"
 }
 REQUEST_DELAY = 0.5  # ser gentil com o site
+MAX_RETRIES = 4
 
 
 def get_soup(path: str) -> BeautifulSoup:
-    resp = requests.get(f"{BASE_URL}{path}", headers=HEADERS, timeout=30)
-    resp.raise_for_status()
-    time.sleep(REQUEST_DELAY)
-    return BeautifulSoup(resp.text, "lxml")
+    """Baixa uma página com retry (falhas de rede transitórias, tipo timeout,
+    são comuns em scrapes longos de centenas de páginas — sem retry, uma única
+    falha derruba o processo inteiro e perde todo o progresso já feito)."""
+    last_exc = None
+    for attempt in range(1, MAX_RETRIES + 1):
+        try:
+            resp = requests.get(f"{BASE_URL}{path}", headers=HEADERS, timeout=30)
+            resp.raise_for_status()
+            time.sleep(REQUEST_DELAY)
+            return BeautifulSoup(resp.text, "lxml")
+        except (requests.exceptions.RequestException,) as exc:
+            last_exc = exc
+            if attempt < MAX_RETRIES:
+                wait = 2 ** attempt  # 2s, 4s, 8s
+                time.sleep(wait)
+    raise last_exc
 
 
 def list_series(tournament: str, debug: bool = False) -> list[dict]:
@@ -138,6 +151,36 @@ def scrape_game(game_id: str, league: str, patch: str | None, date: str | None,
     return game, picks_bans
 
 
+def load_json(path: Path):
+    return json.loads(path.read_text(encoding="utf-8"))
+
+
+def _save(league: str, all_games: list, all_picks_bans: list):
+    """Deduplica por GameId (relevante com --merge, se algum torneio se sobrepuser),
+    ordena por data (vários torneios podem ser passados fora de ordem cronológica,
+    ex: playoffs de um split cruzando com o split seguinte — e train.py depende da
+    ordem das linhas para validação respeitando o tempo) e salva em disco."""
+    seen = set()
+    dedup_games, dedup_picks_bans = [], []
+    for game, pb in zip(all_games, all_picks_bans):
+        gid = game["GameId"]
+        if gid in seen:
+            continue
+        seen.add(gid)
+        dedup_games.append(game)
+        dedup_picks_bans.append(pb)
+
+    order = sorted(range(len(dedup_games)), key=lambda i: dedup_games[i]["DateTime_UTC"] or "")
+    sorted_games = [dedup_games[i] for i in order]
+    sorted_picks_bans = [dedup_picks_bans[i] for i in order]
+
+    games_path = DATA_DIR / f"games_{league}.json"
+    pb_path = DATA_DIR / f"picks_bans_{league}.json"
+    games_path.write_text(json.dumps(sorted_games, ensure_ascii=False, indent=2), encoding="utf-8")
+    pb_path.write_text(json.dumps(sorted_picks_bans, ensure_ascii=False, indent=2), encoding="utf-8")
+    return games_path, pb_path
+
+
 def main():
     parser = argparse.ArgumentParser(description="Baixa dados do gol.gg (scraping de HTML)")
     parser.add_argument("--league", required=True, help="Nome curto para salvar os arquivos (ex: LPL)")
@@ -145,6 +188,9 @@ def main():
                          help="Slugs exatos de torneio no gol.gg, ex: \"LPL Spring 2024\" \"LPL Summer 2024\"")
     parser.add_argument("--limit-series", type=int, default=None,
                          help="Limita quantas séries processar por torneio (útil para testar)")
+    parser.add_argument("--merge", action="store_true",
+                         help="Soma aos dados já salvos em vez de sobrescrever (útil para "
+                              "completar torneios que faltaram numa rodada anterior)")
     parser.add_argument("--debug", action="store_true", help="Imprime detalhes de cada etapa")
     args = parser.parse_args()
 
@@ -152,6 +198,14 @@ def main():
 
     all_games = []
     all_picks_bans = []
+
+    if args.merge:
+        games_path = DATA_DIR / f"games_{args.league}.json"
+        pb_path = DATA_DIR / f"picks_bans_{args.league}.json"
+        if games_path.exists() and pb_path.exists():
+            all_games = load_json(games_path)
+            all_picks_bans = load_json(pb_path)
+            print(f"--merge: {len(all_games)} jogos já salvos carregados de {games_path}")
 
     for tournament in args.tournaments:
         print(f"Torneio: {tournament}")
@@ -172,17 +226,12 @@ def main():
             if i % 10 == 0 or i == len(series_list):
                 print(f"  ... {i}/{len(series_list)} séries processadas ({len(all_games)} jogos até agora)")
 
-    # Ordena por data: vários torneios são passados fora de ordem cronológica
-    # (ex: playoffs de um split cruzando com o split seguinte), e train.py
-    # depende da ordem das linhas para validação respeitando o tempo.
-    order = sorted(range(len(all_games)), key=lambda i: all_games[i]["DateTime_UTC"] or "")
-    all_games = [all_games[i] for i in order]
-    all_picks_bans = [all_picks_bans[i] for i in order]
+        # Salva um checkpoint depois de cada torneio: um scrape completo pode
+        # levar dezenas de minutos e centenas de requisições — se uma falha de
+        # rede (mesmo com retry) matar o processo, o progresso já feito não se perde.
+        _save(args.league, all_games, all_picks_bans)
 
-    games_path = DATA_DIR / f"games_{args.league}.json"
-    pb_path = DATA_DIR / f"picks_bans_{args.league}.json"
-    games_path.write_text(json.dumps(all_games, ensure_ascii=False, indent=2), encoding="utf-8")
-    pb_path.write_text(json.dumps(all_picks_bans, ensure_ascii=False, indent=2), encoding="utf-8")
+    games_path, pb_path = _save(args.league, all_games, all_picks_bans)
     print(f"  -> {len(all_games)} partidas salvas em {games_path}")
     print(f"  -> {len(all_picks_bans)} registros de draft salvos em {pb_path}")
 

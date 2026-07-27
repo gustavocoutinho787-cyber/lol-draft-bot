@@ -7,7 +7,9 @@ essa probabilidade com as odds das casas de apostas para achar apostas de valor
 
 ## Escopo atual
 
-- Foco inicial: **LPL** (fácil de estender para LCK, LEC, CBLOL etc.)
+- Ligas com dados baixados: **LPL, LCK, LEC, CBLOL** (2024-2026, via gol.gg) —
+  cada uma com seu próprio modelo treinado (`--league` troca o time todo:
+  dados, features e modelo)
 - Fonte de dados: **Leaguepedia** (API pública Cargo/MediaWiki, gratuita), com
   **gol.gg** como alternativa via scraping quando a Leaguepedia estiver com
   rate limit
@@ -58,7 +60,13 @@ python predict.py --config exemplo_draft.json
 - O `fetch_golgg.py` faz scraping de HTML (gol.gg não tem API pública), então é
   mais frágil a mudanças de layout do site do que a Cargo API da Leaguepedia.
   Os nomes exatos dos torneios (ex: "LPL Spring 2024") precisam ser conferidos
-  manualmente na URL do gol.gg antes de rodar.
+  manualmente na URL do gol.gg antes de rodar — e mudam de nomenclatura entre
+  ligas e anos (ex: LEC usa "LEC Winter Season 2024" mas "LEC Winter 2025";
+  CBLOL virou "LTA South" em 2025 por causa da fusão com LCS/LLA daquele ano).
+- `fetch_golgg.py` salva um checkpoint em disco depois de cada torneio (uma
+  falha de rede no meio de um scrape longo não perde o progresso já feito) e
+  aceita `--merge` para completar torneios que faltaram numa rodada anterior
+  sem raspar tudo de novo.
 - Para odds ao vivo, o caminho mais comum é uma API de odds paga (ex: The Odds
   API, Pinnacle API) ou scraping — nenhuma decisão foi tomada sobre isso ainda.
 - Este é um projeto de **análise/apoio à decisão**. As previsões do modelo são
