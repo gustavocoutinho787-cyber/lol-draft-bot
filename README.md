@@ -25,7 +25,8 @@ lol-draft-bot/
 ├── fetch_golgg.py         # alternativa: baixa partidas + drafts do gol.gg (scraping)
 ├── build_features.py      # transforma drafts em features numéricas
 ├── train.py               # treina modelo de win probability
-├── predict.py             # roda inferência em um draft novo
+├── predict.py             # roda inferência em um draft novo (linha de comando)
+├── app.py                 # interface web local (Streamlit) para o predict.py
 ├── exemplo_draft.json     # exemplo de draft para o predict.py
 ├── requirements.txt
 └── README.md
@@ -48,9 +49,16 @@ python build_features.py
 # 3. Treinar o modelo
 python train.py
 
-# 4. Prever um draft específico
+# 4. Prever um draft específico (linha de comando)
 python predict.py --config exemplo_draft.json
+
+# 4b. Ou usar a interface web local, mais fácil (escolhe os campeões em menus)
+streamlit run app.py
 ```
+
+O `app.py` abre em `http://localhost:8501` no seu navegador e só funciona
+enquanto o comando `streamlit run` estiver rodando no seu computador — não é
+um site público, é uma interface local.
 
 ## Notas importantes
 
@@ -67,6 +75,9 @@ python predict.py --config exemplo_draft.json
   falha de rede no meio de um scrape longo não perde o progresso já feito) e
   aceita `--merge` para completar torneios que faltaram numa rodada anterior
   sem raspar tudo de novo.
+- A versão do `streamlit` está fixada em `1.38.0` no requirements.txt — a versão
+  mais recente (1.60) tinha um bug real no menu de seleção de campeões (as
+  opções não apareciam ao digitar ou navegar com teclado).
 - Para odds ao vivo, o caminho mais comum é uma API de odds paga (ex: The Odds
   API, Pinnacle API) ou scraping — nenhuma decisão foi tomada sobre isso ainda.
 - Este é um projeto de **análise/apoio à decisão**. As previsões do modelo são
