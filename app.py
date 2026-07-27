@@ -18,6 +18,8 @@ from predict import load_champion_winrates, load_model, vectorize_single
 
 DATA_DIR = Path(__file__).resolve().parent / "data"
 LEAGUES = ["LPL", "LCK", "LEC", "CBLOL"]
+ROLES = ["TOP", "JUNGLE", "MID", "BOT", "SUPPORT"]
+ROLE_LABELS = {"TOP": "Top", "JUNGLE": "Jungle", "MID": "Mid", "BOT": "ADC", "SUPPORT": "Support"}
 
 
 @st.cache_resource
@@ -29,6 +31,24 @@ def get_model(league: str):
 def get_champion_list(league: str) -> list[str]:
     winrates = load_champion_winrates(league)
     return sorted(winrates.keys())
+
+
+@st.cache_data
+def get_champion_roles(league: str) -> dict[str, list[str]]:
+    path = DATA_DIR / f"champion_roles_{league}.json"
+    if not path.exists():
+        return {}
+    return json.loads(path.read_text(encoding="utf-8"))
+
+
+def get_champions_for_role(all_champions: list[str], roles_by_champ: dict[str, list[str]], role: str) -> list[str]:
+    """Campeões associados a essa rota, mais os sem rota identificada (fallback
+    disponível em toda rota, em vez de ficarem escondidos do usuário)."""
+    if not roles_by_champ:
+        return all_champions
+    matched = [c for c in all_champions if role in roles_by_champ.get(c, [])]
+    unassigned = [c for c in all_champions if c not in roles_by_champ]
+    return sorted(set(matched) | set(unassigned))
 
 
 st.set_page_config(page_title="LoL Draft Bot", page_icon="🎮")
@@ -49,19 +69,28 @@ except FileNotFoundError:
     st.stop()
 
 champion_options = get_champion_list(league)
+champion_roles = get_champion_roles(league)
 
 col1, col2 = st.columns(2)
 with col1:
     st.subheader("Time 1")
     team1_picks = [
-        st.selectbox(f"Pick {i+1} (Time 1)", champion_options, key=f"t1_{i}")
-        for i in range(5)
+        st.selectbox(
+            ROLE_LABELS[role] + " (Time 1)",
+            get_champions_for_role(champion_options, champion_roles, role),
+            key=f"t1_{role}",
+        )
+        for role in ROLES
     ]
 with col2:
     st.subheader("Time 2")
     team2_picks = [
-        st.selectbox(f"Pick {i+1} (Time 2)", champion_options, key=f"t2_{i}")
-        for i in range(5)
+        st.selectbox(
+            ROLE_LABELS[role] + " (Time 2)",
+            get_champions_for_role(champion_options, champion_roles, role),
+            key=f"t2_{role}",
+        )
+        for role in ROLES
     ]
 
 if st.button("Prever", type="primary"):

@@ -43,6 +43,10 @@ python fetch_leaguepedia.py --league LPL --year 2024 2025
 # 1b. Alternativa, se a Leaguepedia estiver com rate limit (scraping do gol.gg)
 python fetch_golgg.py --league LPL --tournaments "LPL Spring 2024" "LPL Summer Season 2024"
 
+# 1c. Opcional: rota (TOP/JUNGLE/MID/BOT/SUPPORT) de cada campeão, pro app.py
+# organizar os menus por rota em vez de uma lista única com todos os campeões
+python fetch_golgg.py --league LPL --roles-from "LPL Spring 2024"
+
 # 2. Construir features a partir do draft
 python build_features.py
 
@@ -75,6 +79,11 @@ um site público, é uma interface local.
   falha de rede no meio de um scrape longo não perde o progresso já feito) e
   aceita `--merge` para completar torneios que faltaram numa rodada anterior
   sem raspar tudo de novo.
+- A rota de cada campeão (`--roles-from`) vem de só UM torneio por liga (não
+  de todos os torneios baixados), então alguns campeões — principalmente os
+  lançados depois desse torneio — ficam sem rota identificada. Nesse caso o
+  app.py simplesmente mostra esses campeões em toda rota (fallback), em vez
+  de escondê-los do usuário.
 - A versão do `streamlit` está fixada em `1.38.0` no requirements.txt — a versão
   mais recente (1.60) tinha um bug real no menu de seleção de campeões (as
   opções não apareciam ao digitar ou navegar com teclado).
