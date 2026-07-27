@@ -33,6 +33,13 @@ HEADERS = {
 }
 REQUEST_DELAY = 0.5  # ser gentil com o site
 MAX_RETRIES = 4
+ROLES = ["TOP", "JUNGLE", "MID", "BOT", "SUPPORT"]
+
+
+def _normalize_champ_name(name: str) -> str:
+    """Remove espaços/apóstrofos/pontos para comparar nomes de fontes diferentes
+    do gol.gg (ex: filename 'XinZhao' vs nome exibido 'Xin Zhao')."""
+    return "".join(ch for ch in name.lower() if ch.isalnum())
 
 
 def get_soup(path: str) -> BeautifulSoup:
@@ -151,6 +158,48 @@ def scrape_game(game_id: str, league: str, patch: str | None, date: str | None,
     return game, picks_bans
 
 
+def fetch_champion_roles(tournament: str, known_champions: set[str],
+                          debug: bool = False) -> dict[str, list[str]]:
+    """Baixa a página agregada de picks & bans de um torneio no gol.gg, que
+    lista os campeões mais jogados por rota (TOP/JUNGLE/MID/BOT/SUPPORT), e
+    devolve {campeão: [rotas]}.
+
+    Um campeão pode aparecer em mais de uma rota (picks flex, ex: Renekton
+    top/jungle) — nesse caso fica associado a todas em que apareceu. Os nomes
+    de campeão nessa página vêm do filename do ícone (ex: "XinZhao"), sem
+    espaço/apóstrofo, então são casados com known_champions por normalização
+    em vez de usados direto (para bater com o nome usado no resto dos dados).
+    """
+    slug = quote(tournament)
+    soup = get_soup(f"/tournament/tournament-picksandbans/{slug}/")
+    table = soup.find("table", class_="table_list")
+    if table is None:
+        return {}
+
+    normalized_lookup = {_normalize_champ_name(c): c for c in known_champions}
+
+    roles_by_champ: dict[str, list[str]] = {}
+    for row in table.find_all("tr"):
+        tds = row.find_all("td")
+        if len(tds) < 2:
+            continue
+        label = tds[0].get_text(strip=True)
+        if label not in ROLES:
+            continue
+        for img in tds[1].find_all("img"):
+            filename = img.get("src", "").rsplit("/", 1)[-1].replace(".png", "")
+            champ = normalized_lookup.get(_normalize_champ_name(filename))
+            if not champ:
+                continue  # campeão não visto nos dados de partidas já baixados
+            roles_by_champ.setdefault(champ, [])
+            if label not in roles_by_champ[champ]:
+                roles_by_champ[champ].append(label)
+
+    if debug:
+        print(f"[debug] rotas extraídas para {len(roles_by_champ)} campeões de {tournament}")
+    return roles_by_champ
+
+
 def load_json(path: Path):
     return json.loads(path.read_text(encoding="utf-8"))
 
@@ -184,13 +233,19 @@ def _save(league: str, all_games: list, all_picks_bans: list):
 def main():
     parser = argparse.ArgumentParser(description="Baixa dados do gol.gg (scraping de HTML)")
     parser.add_argument("--league", required=True, help="Nome curto para salvar os arquivos (ex: LPL)")
-    parser.add_argument("--tournaments", nargs="+", required=True,
-                         help="Slugs exatos de torneio no gol.gg, ex: \"LPL Spring 2024\" \"LPL Summer 2024\"")
+    parser.add_argument("--tournaments", nargs="+", default=[],
+                         help="Slugs exatos de torneio no gol.gg, ex: \"LPL Spring 2024\" \"LPL Summer 2024\". "
+                              "Pode ser omitido se só quiser rodar --roles-from sobre dados já baixados.")
     parser.add_argument("--limit-series", type=int, default=None,
                          help="Limita quantas séries processar por torneio (útil para testar)")
     parser.add_argument("--merge", action="store_true",
                          help="Soma aos dados já salvos em vez de sobrescrever (útil para "
                               "completar torneios que faltaram numa rodada anterior)")
+    parser.add_argument("--roles-from", default=None,
+                         help="Slug de torneio (ex: \"LPL Spring 2024\") para extrair a rota "
+                              "(TOP/JUNGLE/MID/BOT/SUPPORT) de cada campeão e salvar em "
+                              "champion_roles_{league}.json — usado pelo app.py para organizar "
+                              "os menus de pick por rota")
     parser.add_argument("--debug", action="store_true", help="Imprime detalhes de cada etapa")
     args = parser.parse_args()
 
@@ -206,6 +261,9 @@ def main():
             all_games = load_json(games_path)
             all_picks_bans = load_json(pb_path)
             print(f"--merge: {len(all_games)} jogos já salvos carregados de {games_path}")
+
+    if not args.tournaments and not args.roles_from:
+        parser.error("passe --tournaments, --roles-from, ou ambos")
 
     for tournament in args.tournaments:
         print(f"Torneio: {tournament}")
@@ -231,9 +289,30 @@ def main():
         # rede (mesmo com retry) matar o processo, o progresso já feito não se perde.
         _save(args.league, all_games, all_picks_bans)
 
-    games_path, pb_path = _save(args.league, all_games, all_picks_bans)
-    print(f"  -> {len(all_games)} partidas salvas em {games_path}")
-    print(f"  -> {len(all_picks_bans)} registros de draft salvos em {pb_path}")
+    if args.tournaments:
+        games_path, pb_path = _save(args.league, all_games, all_picks_bans)
+        print(f"  -> {len(all_games)} partidas salvas em {games_path}")
+        print(f"  -> {len(all_picks_bans)} registros de draft salvos em {pb_path}")
+
+    if args.roles_from:
+        known_champions = set()
+        winrates_path = DATA_DIR / f"champion_winrates_{args.league}.json"
+        if winrates_path.exists():
+            known_champions.update(load_json(winrates_path).keys())
+        for pb in all_picks_bans:
+            known_champions.update((pb.get("Team1Picks") or "").split(";"))
+            known_champions.update((pb.get("Team2Picks") or "").split(";"))
+        known_champions.discard("")
+
+        print(f"Buscando rotas dos campeões em: {args.roles_from}")
+        roles_by_champ = fetch_champion_roles(args.roles_from, known_champions, debug=args.debug)
+        roles_path = DATA_DIR / f"champion_roles_{args.league}.json"
+        roles_path.write_text(json.dumps(roles_by_champ, ensure_ascii=False, indent=2), encoding="utf-8")
+        sem_rota = known_champions - set(roles_by_champ.keys())
+        print(f"  -> rotas de {len(roles_by_champ)} campeões salvas em {roles_path}")
+        if sem_rota:
+            print(f"  -> {len(sem_rota)} campeões sem rota identificada (ficam disponíveis em todas): "
+                  f"{sorted(sem_rota)[:10]}{'...' if len(sem_rota) > 10 else ''}")
 
 
 if __name__ == "__main__":
