@@ -42,13 +42,15 @@ def get_champion_roles(league: str) -> dict[str, list[str]]:
 
 
 def get_champions_for_role(all_champions: list[str], roles_by_champ: dict[str, list[str]], role: str) -> list[str]:
-    """Campeões associados a essa rota, mais os sem rota identificada (fallback
-    disponível em toda rota, em vez de ficarem escondidos do usuário)."""
+    """Coloca os campeões mais comuns dessa rota primeiro na lista (mais fácil
+    de achar o padrão), mas SEMPRE mantém todos os campeões disponíveis —
+    a rota vem de um recorte antigo de dados e não deve travar picks fora do
+    padrão (ex: mago no ADC, que virou comum na meta atual)."""
     if not roles_by_champ:
         return all_champions
     matched = [c for c in all_champions if role in roles_by_champ.get(c, [])]
-    unassigned = [c for c in all_champions if c not in roles_by_champ]
-    return sorted(set(matched) | set(unassigned))
+    rest = [c for c in all_champions if c not in matched]
+    return sorted(matched) + sorted(rest)
 
 
 st.set_page_config(page_title="LoL Draft Bot", page_icon="🎮")
