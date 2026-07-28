@@ -14,7 +14,7 @@ from pathlib import Path
 
 import streamlit as st
 
-from predict import load_champion_winrates, load_model, vectorize_single
+from predict import load_champion_winrates, load_kills_model, load_model, vectorize_single
 
 DATA_DIR = Path(__file__).resolve().parent / "data"
 LEAGUES = ["LPL", "LCK", "LEC", "CBLOL"]
@@ -25,6 +25,11 @@ ROLE_LABELS = {"TOP": "Top", "JUNGLE": "Jungle", "MID": "Mid", "BOT": "ADC", "SU
 @st.cache_resource
 def get_model(league: str):
     return load_model(league)
+
+
+@st.cache_resource
+def get_kills_model(league: str):
+    return load_kills_model(league)
 
 
 @st.cache_data
@@ -107,6 +112,13 @@ if st.button("Prever", type="primary"):
         c1.metric("Time 1", f"{proba_team1:.1%}")
         c2.metric("Time 2", f"{1 - proba_team1:.1%}")
         st.progress(float(proba_team1))
+
+        kills_model, kills_columns = get_kills_model(league)
+        if kills_model is not None:
+            X_kills = vectorize_single(team1_picks, team2_picks, kills_columns, champion_winrates)
+            total_kills = kills_model.predict(X_kills)[0]
+            st.metric("Total de kills estimado no jogo", f"{total_kills:.1f}")
+
         st.caption(
             "Para achar valor de aposta, compare essa probabilidade com a probabilidade "
             "implícita da odds da casa (1 / odd_decimal). Só há indício de edge positivo "

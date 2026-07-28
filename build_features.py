@@ -9,7 +9,10 @@ Estratégia de feature engineering (v1 — simples e explicável):
     (limitado aos N campeões mais frequentes, resto vira "OTHER").
   - Win rate histórico médio dos campeões de cada time, numa janela expansiva
     (só usa jogos ANTERIORES em ordem cronológica — não vaza resultado futuro).
-  - Target: 1 se Team1 venceu, 0 caso contrário.
+  - Target (vitória): 1 se Team1 venceu, 0 caso contrário.
+  - Target (kills, opcional): total_kills = Team1Kills + Team2Kills, só
+    disponível para jogos onde rodou `fetch_golgg.py --add-kills` (fica NaN
+    nos outros) — usado por train_kills.py para prever kills totais do jogo.
 
 Isso é propositalmente simples para servir de baseline. Ideias de evolução:
   - Sinergias entre campeões (pares pick-pick do mesmo time)
@@ -55,6 +58,12 @@ def build_dataset(league: str) -> pd.DataFrame:
         # Winner na Leaguepedia normalmente é "1" ou "2" indicando Team1/Team2
         winner_is_team1 = str(game["Winner"]).strip() == "1"
 
+        team1_kills = game.get("Team1Kills")
+        team2_kills = game.get("Team2Kills")
+        total_kills = (
+            team1_kills + team2_kills if team1_kills is not None and team2_kills is not None else None
+        )
+
         rows.append({
             "game_id": game_id,
             "league": game.get("League"),
@@ -65,6 +74,7 @@ def build_dataset(league: str) -> pd.DataFrame:
             "team1_picks": team1_picks,
             "team2_picks": team2_picks,
             "team1_win": int(winner_is_team1),
+            "total_kills": total_kills,
         })
 
     df = pd.DataFrame(rows)
@@ -135,6 +145,7 @@ def vectorize(df: pd.DataFrame, champion_pool: list[str]) -> pd.DataFrame:
         feats["team2_champ_wr_avg"] = row["team2_champ_wr_avg"]
         feats["game_id"] = row["game_id"]
         feats["team1_win"] = row["team1_win"]
+        feats["total_kills"] = row["total_kills"]  # NaN se o jogo ainda não tem kills (--add-kills)
         feature_rows.append(feats)
     return pd.DataFrame(feature_rows)
 

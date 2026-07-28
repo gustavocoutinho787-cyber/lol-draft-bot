@@ -14,6 +14,8 @@ essa probabilidade com as odds das casas de apostas para achar apostas de valor
   **gol.gg** como alternativa via scraping quando a Leaguepedia estiver com
   rate limit
 - Modelo: previsão de win probability a partir do draft completo (picks, bans, side)
+- Modelo opcional: previsão de total de kills do jogo (`train_kills.py`), só
+  disponível para ligas onde `fetch_golgg.py --add-kills` já rodou
 - Odds de apostas: **fora de escopo por enquanto** — módulo fica pronto para
   receber essa integração depois
 
@@ -25,6 +27,7 @@ lol-draft-bot/
 ├── fetch_golgg.py         # alternativa: baixa partidas + drafts do gol.gg (scraping)
 ├── build_features.py      # transforma drafts em features numéricas
 ├── train.py               # treina modelo de win probability
+├── train_kills.py         # treina modelo de total de kills (opcional, precisa de --add-kills)
 ├── predict.py             # roda inferência em um draft novo (linha de comando)
 ├── app.py                 # interface web local (Streamlit) para o predict.py
 ├── exemplo_draft.json     # exemplo de draft para o predict.py
@@ -47,13 +50,20 @@ python fetch_golgg.py --league LPL --tournaments "LPL Spring 2024" "LPL Summer S
 # organizar os menus por rota em vez de uma lista única com todos os campeões
 python fetch_golgg.py --league LPL --roles-from "LPL Spring 2024"
 
+# 1d. Opcional: total de kills de cada jogo já baixado, pra prever kills além de vitória
+python fetch_golgg.py --league LPL --add-kills
+
 # 2. Construir features a partir do draft
 python build_features.py
 
-# 3. Treinar o modelo
+# 3. Treinar o modelo de vitória
 python train.py
 
-# 4. Prever um draft específico (linha de comando)
+# 3b. Opcional: treinar o modelo de kills (precisa do passo 1d antes)
+python train_kills.py --league LPL
+
+# 4. Prever um draft específico (linha de comando) — mostra kills também, se o
+# modelo de kills existir para a liga
 python predict.py --config exemplo_draft.json
 
 # 4b. Ou usar a interface web local, mais fácil (escolhe os campeões em menus)
@@ -87,6 +97,12 @@ um site público, é uma interface local.
 - A versão do `streamlit` está fixada em `1.38.0` no requirements.txt — a versão
   mais recente (1.60) tinha um bug real no menu de seleção de campeões (as
   opções não apareciam ao digitar ou navegar com teclado).
+- `--add-kills` busca o total de kills página por página (uma requisição por
+  jogo já baixado), então é lento pra base grande — é retomável (pula jogos
+  que já têm kills), então dá pra parar e continuar depois.
+- `total_kills` nunca entra como feature do modelo de vitória (`train.py`) —
+  seria vazamento de dado, já que só se sabe o total de kills depois do jogo
+  acabar. Ele é o **alvo** do `train_kills.py`, não uma entrada.
 - Para odds ao vivo, o caminho mais comum é uma API de odds paga (ex: The Odds
   API, Pinnacle API) ou scraping — nenhuma decisão foi tomada sobre isso ainda.
 - Este é um projeto de **análise/apoio à decisão**. As previsões do modelo são

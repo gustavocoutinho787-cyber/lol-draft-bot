@@ -27,6 +27,16 @@ def load_model(league: str):
     return payload["model"], payload["columns"]
 
 
+def load_kills_model(league: str):
+    """Modelo de kills é opcional — só existe se rodou fetch_golgg.py --add-kills
+    e train_kills.py para essa liga. Devolve (None, None) se não existir."""
+    path = MODEL_DIR / f"model_kills_{league}.joblib"
+    if not path.exists():
+        return None, None
+    payload = joblib.load(path)
+    return payload["model"], payload["columns"]
+
+
 def load_champion_winrates(league: str) -> dict[str, float]:
     path = DATA_DIR / f"champion_winrates_{league}.json"
     if not path.exists():
@@ -72,6 +82,13 @@ def main():
     proba_team1 = model.predict_proba(X)[0, 1]
     print(f"Probabilidade estimada de vitória do Team1: {proba_team1:.1%}")
     print(f"Probabilidade estimada de vitória do Team2: {1 - proba_team1:.1%}")
+
+    kills_model, kills_columns = load_kills_model(league)
+    if kills_model is not None:
+        X_kills = vectorize_single(config["team1_picks"], config["team2_picks"], kills_columns, champion_winrates)
+        total_kills = kills_model.predict(X_kills)[0]
+        print(f"\nTotal de kills estimado no jogo: {total_kills:.1f}")
+
     print(
         "\nPara achar valor de aposta, compare essa probabilidade com a "
         "probabilidade implícita da odds da casa (1 / odd_decimal). Se a sua "
