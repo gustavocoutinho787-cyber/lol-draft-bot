@@ -26,7 +26,9 @@ def train(league: str):
     df = pd.read_csv(features_path)
 
     y = df["team1_win"]
-    X = df.drop(columns=["team1_win", "game_id"])
+    # total_kills é um resultado da partida (como team1_win), não uma feature —
+    # incluí-lo como entrada vazaria informação pós-jogo para o modelo.
+    X = df.drop(columns=["team1_win", "game_id", "total_kills"])
 
     tscv = TimeSeriesSplit(n_splits=5)
     metrics = []

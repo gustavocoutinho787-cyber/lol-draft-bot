@@ -158,6 +158,35 @@ def scrape_game(game_id: str, league: str, patch: str | None, date: str | None,
     return game, picks_bans
 
 
+def scrape_game_kills(game_id: str, debug: bool = False):
+    """Baixa a página de estatísticas completas de um jogo e devolve
+    (kills_time1_blue, kills_time2_red) ou (None, None) se a página não
+    tiver a tabela de stats no formato esperado."""
+    soup = get_soup(f"/game/stats/{game_id}/page-fullstats/")
+    table = soup.find("table", class_="completestats")
+    if table is None:
+        return None, None
+
+    for row in table.find_all("tr"):
+        tds = row.find_all("td")
+        if not tds or tds[0].get_text(strip=True) != "Kills":
+            continue
+        values = [td.get_text(strip=True) for td in tds[1:]]
+        if len(values) != 10:  # 5 jogadores blue + 5 red
+            return None, None
+        try:
+            per_player = [int(v) for v in values]
+        except ValueError:
+            return None, None
+        team1_kills = sum(per_player[:5])
+        team2_kills = sum(per_player[5:])
+        if debug:
+            print(f"[debug] game {game_id}: kills blue={team1_kills} red={team2_kills}")
+        return team1_kills, team2_kills
+
+    return None, None
+
+
 def fetch_champion_roles(tournament: str, known_champions: set[str],
                           debug: bool = False) -> dict[str, list[str]]:
     """Baixa a página agregada de picks & bans de um torneio no gol.gg, que
@@ -246,10 +275,38 @@ def main():
                               "(TOP/JUNGLE/MID/BOT/SUPPORT) de cada campeão e salvar em "
                               "champion_roles_{league}.json — usado pelo app.py para organizar "
                               "os menus de pick por rota")
+    parser.add_argument("--add-kills", action="store_true",
+                         help="Busca o total de kills de cada time (Team1Kills/Team2Kills) para "
+                              "os jogos já salvos em games_{league}.json e re-salva enriquecido. "
+                              "Não precisa de --tournaments. Retomável: pula jogos que já têm kills.")
     parser.add_argument("--debug", action="store_true", help="Imprime detalhes de cada etapa")
     args = parser.parse_args()
 
     DATA_DIR.mkdir(parents=True, exist_ok=True)
+
+    if args.add_kills:
+        games_path = DATA_DIR / f"games_{args.league}.json"
+        if not games_path.exists():
+            parser.error(f"{games_path} não existe — rode o scrape normal (--tournaments) primeiro")
+        games = load_json(games_path)
+        pendentes = [g for g in games if "Team1Kills" not in g]
+        print(f"Buscando kills para {len(pendentes)}/{len(games)} jogos de {args.league} "
+              f"(pulando os que já têm)...")
+        updated = 0
+        for i, game in enumerate(games, 1):
+            if "Team1Kills" in game:
+                continue
+            t1k, t2k = scrape_game_kills(game["GameId"], debug=args.debug)
+            if t1k is not None:
+                game["Team1Kills"] = t1k
+                game["Team2Kills"] = t2k
+                updated += 1
+            if updated and updated % 50 == 0:
+                print(f"  ... {updated}/{len(pendentes)} jogos com kills até agora")
+                games_path.write_text(json.dumps(games, ensure_ascii=False, indent=2), encoding="utf-8")
+        games_path.write_text(json.dumps(games, ensure_ascii=False, indent=2), encoding="utf-8")
+        print(f"  -> kills adicionadas a {updated} jogos, salvo em {games_path}")
+        return
 
     all_games = []
     all_picks_bans = []
