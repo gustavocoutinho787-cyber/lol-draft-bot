@@ -7,9 +7,9 @@ essa probabilidade com as odds das casas de apostas para achar apostas de valor
 
 ## Escopo atual
 
-- Ligas com dados baixados: **LPL, LCK, LEC, CBLOL** (2024-2026, via gol.gg) —
-  cada uma com seu próprio modelo treinado (`--league` troca o time todo:
-  dados, features e modelo)
+- Ligas com dados baixados: **LPL, LCK, LEC, CBLOL, LCS** (2024-2026, via
+  gol.gg) — cada uma com seu próprio modelo treinado (`--league` troca o
+  time todo: dados, features e modelo)
 - Fonte de dados: **Leaguepedia** (API pública Cargo/MediaWiki, gratuita), com
   **gol.gg** como alternativa via scraping quando a Leaguepedia estiver com
   rate limit
@@ -84,7 +84,8 @@ um site público, é uma interface local.
   Os nomes exatos dos torneios (ex: "LPL Spring 2024") precisam ser conferidos
   manualmente na URL do gol.gg antes de rodar — e mudam de nomenclatura entre
   ligas e anos (ex: LEC usa "LEC Winter Season 2024" mas "LEC Winter 2025";
-  CBLOL virou "LTA South" em 2025 por causa da fusão com LCS/LLA daquele ano).
+  CBLOL e LCS viraram "LTA South"/"LTA North" em 2025 por causa da fusão
+  CBLOL+LCS+LLA daquele ano, voltando aos nomes de liga separados em 2026).
 - `fetch_golgg.py` salva um checkpoint em disco depois de cada torneio (uma
   falha de rede no meio de um scrape longo não perde o progresso já feito) e
   aceita `--merge` para completar torneios que faltaram numa rodada anterior
