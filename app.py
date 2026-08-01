@@ -17,7 +17,7 @@ import streamlit as st
 from predict import load_champion_winrates, load_kills_model, load_model, vectorize_single
 
 DATA_DIR = Path(__file__).resolve().parent / "data"
-LEAGUES = ["LPL", "LCK", "LEC", "CBLOL"]
+LEAGUES = ["LPL", "LCK", "LEC", "CBLOL", "LCS"]
 ROLES = ["TOP", "JUNGLE", "MID", "BOT", "SUPPORT"]
 ROLE_LABELS = {"TOP": "Top", "JUNGLE": "Jungle", "MID": "Mid", "BOT": "ADC", "SUPPORT": "Support"}
 
