@@ -256,7 +256,7 @@ def _save(league: str, all_games: list, all_picks_bans: list):
     pb_path = DATA_DIR / f"picks_bans_{league}.json"
     games_path.write_text(json.dumps(sorted_games, ensure_ascii=False, indent=2), encoding="utf-8")
     pb_path.write_text(json.dumps(sorted_picks_bans, ensure_ascii=False, indent=2), encoding="utf-8")
-    return games_path, pb_path
+    return games_path, pb_path, len(sorted_games)
 
 
 def main():
@@ -347,9 +347,9 @@ def main():
         _save(args.league, all_games, all_picks_bans)
 
     if args.tournaments:
-        games_path, pb_path = _save(args.league, all_games, all_picks_bans)
-        print(f"  -> {len(all_games)} partidas salvas em {games_path}")
-        print(f"  -> {len(all_picks_bans)} registros de draft salvos em {pb_path}")
+        games_path, pb_path, saved_count = _save(args.league, all_games, all_picks_bans)
+        print(f"  -> {saved_count} partidas salvas em {games_path} (após remover duplicatas)")
+        print(f"  -> {saved_count} registros de draft salvos em {pb_path}")
 
     if args.roles_from:
         known_champions = set()
