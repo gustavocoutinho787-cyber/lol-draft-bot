@@ -1,0 +1,192 @@
+{
+  "Ambessa": [
+    "TOP"
+  ],
+  "Gnar": [
+    "TOP"
+  ],
+  "Rumble": [
+    "TOP"
+  ],
+  "Jayce": [
+    "TOP",
+    "JUNGLE",
+    "BOT"
+  ],
+  "Olaf": [
+    "TOP"
+  ],
+  "KSante": [
+    "TOP"
+  ],
+  "Aatrox": [
+    "TOP"
+  ],
+  "Volibear": [
+    "TOP"
+  ],
+  "Malphite": [
+    "TOP"
+  ],
+  "Shen": [
+    "TOP",
+    "SUPPORT"
+  ],
+  "Renekton": [
+    "TOP"
+  ],
+  "Corki": [
+    "TOP",
+    "BOT"
+  ],
+  "Vayne": [
+    "TOP"
+  ],
+  "Jax": [
+    "TOP"
+  ],
+  "Ornn": [
+    "TOP"
+  ],
+  "Jarvan IV": [
+    "JUNGLE"
+  ],
+  "Lee Sin": [
+    "JUNGLE"
+  ],
+  "Xin Zhao": [
+    "JUNGLE"
+  ],
+  "Vi": [
+    "JUNGLE"
+  ],
+  "Naafiri": [
+    "JUNGLE"
+  ],
+  "Pantheon": [
+    "JUNGLE"
+  ],
+  "Trundle": [
+    "JUNGLE"
+  ],
+  "Skarner": [
+    "JUNGLE"
+  ],
+  "Qiyana": [
+    "JUNGLE"
+  ],
+  "Wukong": [
+    "JUNGLE"
+  ],
+  "Shyvana": [
+    "JUNGLE"
+  ],
+  "Nocturne": [
+    "JUNGLE"
+  ],
+  "Ryze": [
+    "MID"
+  ],
+  "Syndra": [
+    "MID"
+  ],
+  "Galio": [
+    "MID"
+  ],
+  "Akali": [
+    "MID"
+  ],
+  "Sylas": [
+    "MID",
+    "BOT"
+  ],
+  "Orianna": [
+    "MID"
+  ],
+  "Cassiopeia": [
+    "MID",
+    "BOT"
+  ],
+  "Viktor": [
+    "MID",
+    "BOT"
+  ],
+  "Anivia": [
+    "MID"
+  ],
+  "LeBlanc": [
+    "MID"
+  ],
+  "Taliyah": [
+    "MID"
+  ],
+  "Locke": [
+    "MID"
+  ],
+  "Twisted Fate": [
+    "MID"
+  ],
+  "Ahri": [
+    "MID"
+  ],
+  "Annie": [
+    "MID"
+  ],
+  "Ezreal": [
+    "BOT"
+  ],
+  "Ziggs": [
+    "BOT"
+  ],
+  "Lucian": [
+    "BOT"
+  ],
+  "Jhin": [
+    "BOT"
+  ],
+  "Kaisa": [
+    "BOT"
+  ],
+  "Kalista": [
+    "BOT"
+  ],
+  "Caitlyn": [
+    "BOT"
+  ],
+  "Zeri": [
+    "BOT"
+  ],
+  "Miss Fortune": [
+    "BOT"
+  ],
+  "Leona": [
+    "SUPPORT"
+  ],
+  "Camille": [
+    "SUPPORT"
+  ],
+  "Nautilus": [
+    "SUPPORT"
+  ],
+  "Milio": [
+    "SUPPORT"
+  ],
+  "Rell": [
+    "SUPPORT"
+  ],
+  "Bard": [
+    "SUPPORT"
+  ],
+  "Renata Glasc": [
+    "SUPPORT"
+  ],
+  "Karma": [
+    "SUPPORT"
+  ],
+  "Rakan": [
+    "SUPPORT"
+  ],
+  "Alistar": [
+    "SUPPORT"
+  ]
+}

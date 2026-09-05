@@ -1,0 +1,187 @@
+{
+  "Jayce": [
+    "TOP"
+  ],
+  "Gnar": [
+    "TOP"
+  ],
+  "Ambessa": [
+    "TOP"
+  ],
+  "KSante": [
+    "TOP"
+  ],
+  "Rumble": [
+    "TOP"
+  ],
+  "Sion": [
+    "TOP"
+  ],
+  "Vayne": [
+    "TOP"
+  ],
+  "Tristana": [
+    "TOP"
+  ],
+  "Olaf": [
+    "TOP"
+  ],
+  "Dr. Mundo": [
+    "TOP"
+  ],
+  "Ornn": [
+    "TOP"
+  ],
+  "Yorick": [
+    "TOP"
+  ],
+  "Galio": [
+    "TOP",
+    "MID"
+  ],
+  "Twisted Fate": [
+    "TOP"
+  ],
+  "Varus": [
+    "TOP"
+  ],
+  "Renekton": [
+    "TOP"
+  ],
+  "Wukong": [
+    "JUNGLE"
+  ],
+  "Vi": [
+    "JUNGLE"
+  ],
+  "Lee Sin": [
+    "JUNGLE"
+  ],
+  "Jarvan IV": [
+    "JUNGLE"
+  ],
+  "Trundle": [
+    "JUNGLE"
+  ],
+  "Naafiri": [
+    "JUNGLE"
+  ],
+  "Aatrox": [
+    "JUNGLE"
+  ],
+  "Qiyana": [
+    "JUNGLE"
+  ],
+  "Nocturne": [
+    "JUNGLE"
+  ],
+  "Graves": [
+    "JUNGLE"
+  ],
+  "Xin Zhao": [
+    "JUNGLE"
+  ],
+  "Maokai": [
+    "JUNGLE",
+    "SUPPORT"
+  ],
+  "Orianna": [
+    "MID"
+  ],
+  "Syndra": [
+    "MID",
+    "BOT"
+  ],
+  "Taliyah": [
+    "MID"
+  ],
+  "Ryze": [
+    "MID"
+  ],
+  "Cassiopeia": [
+    "MID",
+    "BOT"
+  ],
+  "Akali": [
+    "MID",
+    "BOT"
+  ],
+  "Anivia": [
+    "MID"
+  ],
+  "Sylas": [
+    "MID",
+    "BOT"
+  ],
+  "Viktor": [
+    "MID",
+    "BOT"
+  ],
+  "Locke": [
+    "MID",
+    "BOT"
+  ],
+  "Ahri": [
+    "MID"
+  ],
+  "Lissandra": [
+    "MID"
+  ],
+  "Ezreal": [
+    "BOT"
+  ],
+  "Ziggs": [
+    "BOT"
+  ],
+  "Corki": [
+    "BOT"
+  ],
+  "Kaisa": [
+    "BOT"
+  ],
+  "Caitlyn": [
+    "BOT"
+  ],
+  "Lucian": [
+    "BOT"
+  ],
+  "Jhin": [
+    "BOT"
+  ],
+  "Xerath": [
+    "BOT"
+  ],
+  "VelKoz": [
+    "BOT"
+  ],
+  "Mel": [
+    "BOT"
+  ],
+  "Leona": [
+    "SUPPORT"
+  ],
+  "Shen": [
+    "SUPPORT"
+  ],
+  "Nautilus": [
+    "SUPPORT"
+  ],
+  "Alistar": [
+    "SUPPORT"
+  ],
+  "Camille": [
+    "SUPPORT"
+  ],
+  "Rell": [
+    "SUPPORT"
+  ],
+  "Karma": [
+    "SUPPORT"
+  ],
+  "Bard": [
+    "SUPPORT"
+  ],
+  "Milio": [
+    "SUPPORT"
+  ]
+}

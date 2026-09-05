@@ -1,0 +1,257 @@
+{
+  "Rumble": [
+    "TOP"
+  ],
+  "Gnar": [
+    "TOP"
+  ],
+  "Ambessa": [
+    "TOP"
+  ],
+  "KSante": [
+    "TOP"
+  ],
+  "Jayce": [
+    "TOP",
+    "MID"
+  ],
+  "Renekton": [
+    "TOP"
+  ],
+  "Yorick": [
+    "TOP"
+  ],
+  "Jax": [
+    "TOP"
+  ],
+  "Kled": [
+    "TOP"
+  ],
+  "Galio": [
+    "TOP",
+    "MID",
+    "SUPPORT"
+  ],
+  "Olaf": [
+    "TOP",
+    "JUNGLE"
+  ],
+  "Zaahen": [
+    "TOP",
+    "JUNGLE"
+  ],
+  "Gragas": [
+    "TOP"
+  ],
+  "Vayne": [
+    "TOP"
+  ],
+  "Volibear": [
+    "TOP"
+  ],
+  "Dr. Mundo": [
+    "TOP"
+  ],
+  "Varus": [
+    "TOP",
+    "BOT"
+  ],
+  "Akali": [
+    "TOP",
+    "MID",
+    "BOT"
+  ],
+  "Yone": [
+    "TOP",
+    "MID"
+  ],
+  "Anivia": [
+    "TOP",
+    "MID"
+  ],
+  "Shen": [
+    "TOP",
+    "SUPPORT"
+  ],
+  "Twisted Fate": [
+    "TOP"
+  ],
+  "Mordekaiser": [
+    "TOP"
+  ],
+  "Jarvan IV": [
+    "JUNGLE"
+  ],
+  "Lee Sin": [
+    "JUNGLE"
+  ],
+  "Vi": [
+    "JUNGLE"
+  ],
+  "Naafiri": [
+    "JUNGLE"
+  ],
+  "Wukong": [
+    "JUNGLE"
+  ],
+  "Nocturne": [
+    "JUNGLE"
+  ],
+  "Xin Zhao": [
+    "JUNGLE"
+  ],
+  "Trundle": [
+    "JUNGLE"
+  ],
+  "Pantheon": [
+    "JUNGLE"
+  ],
+  "Skarner": [
+    "JUNGLE"
+  ],
+  "Qiyana": [
+    "JUNGLE"
+  ],
+  "Poppy": [
+    "JUNGLE"
+  ],
+  "Maokai": [
+    "JUNGLE"
+  ],
+  "Cassiopeia": [
+    "MID",
+    "BOT"
+  ],
+  "Syndra": [
+    "MID",
+    "BOT"
+  ],
+  "Orianna": [
+    "MID",
+    "BOT"
+  ],
+  "Viktor": [
+    "MID",
+    "BOT"
+  ],
+  "Ryze": [
+    "MID"
+  ],
+  "Locke": [
+    "MID"
+  ],
+  "Sylas": [
+    "MID"
+  ],
+  "Annie": [
+    "MID"
+  ],
+  "Ahri": [
+    "MID"
+  ],
+  "Taliyah": [
+    "MID"
+  ],
+  "LeBlanc": [
+    "MID"
+  ],
+  "Hwei": [
+    "MID"
+  ],
+  "Aatrox": [
+    "MID"
+  ],
+  "Azir": [
+    "MID"
+  ],
+  "Ziggs": [
+    "BOT"
+  ],
+  "Ezreal": [
+    "BOT"
+  ],
+  "Lucian": [
+    "BOT"
+  ],
+  "Kaisa": [
+    "BOT"
+  ],
+  "Caitlyn": [
+    "BOT"
+  ],
+  "Corki": [
+    "BOT"
+  ],
+  "Xayah": [
+    "BOT"
+  ],
+  "Sivir": [
+    "BOT"
+  ],
+  "Ashe": [
+    "BOT"
+  ],
+  "Yunara": [
+    "BOT"
+  ],
+  "Jhin": [
+    "BOT"
+  ],
+  "Vladimir": [
+    "BOT"
+  ],
+  "Kalista": [
+    "BOT"
+  ],
+  "Tristana": [
+    "BOT"
+  ],
+  "Leona": [
+    "SUPPORT"
+  ],
+  "Rell": [
+    "SUPPORT"
+  ],
+  "Camille": [
+    "SUPPORT"
+  ],
+  "Nautilus": [
+    "SUPPORT"
+  ],
+  "Alistar": [
+    "SUPPORT"
+  ],
+  "Rakan": [
+    "SUPPORT"
+  ],
+  "Bard": [
+    "SUPPORT"
+  ],
+  "Seraphine": [
+    "SUPPORT"
+  ],
+  "Lulu": [
+    "SUPPORT"
+  ],
+  "Milio": [
+    "SUPPORT"
+  ],
+  "Neeko": [
+    "SUPPORT"
+  ],
+  "Elise": [
+    "SUPPORT"
+  ],
+  "Taric": [
+    "SUPPORT"
+  ],
+  "Thresh": [
+    "SUPPORT"
+  ],
+  "Karma": [
+    "SUPPORT"
+  ],
+  "Tahm Kench": [
+    "SUPPORT"
+  ]
+}
