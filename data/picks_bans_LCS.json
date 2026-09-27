@@ -2328,5 +2328,180 @@
     "GameId": "82163",
     "Team1Picks": "Wukong;Syndra;Taliyah;Alistar;Vayne",
     "Team2Picks": "Pantheon;Kalista;Renata Glasc;Gnar;Ahri"
+  },
+  {
+    "GameId": "82457",
+    "Team1Picks": "Pantheon;Lucian;Nami;Syndra;Jax",
+    "Team2Picks": "Lee Sin;Ezreal;Karma;Twisted Fate;Gnar"
+  },
+  {
+    "GameId": "82458",
+    "Team1Picks": "Akali;Lulu;Yunara;Wukong;Ambessa",
+    "Team2Picks": "Orianna;Ashe;Seraphine;KSante;Chogath"
+  },
+  {
+    "GameId": "82454",
+    "Team1Picks": "Ezreal;Vi;Syndra;Karma;Gnar",
+    "Team2Picks": "Cassiopeia;Caitlyn;Bard;Pantheon;KSante"
+  },
+  {
+    "GameId": "82455",
+    "Team1Picks": "Rumble;Wukong;Yone;Kalista;Renata Glasc",
+    "Team2Picks": "Nocturne;Yunara;Lulu;Ahri;Kennen"
+  },
+  {
+    "GameId": "82463",
+    "Team1Picks": "Ryze;Jarvan IV;Jayce;Jhin;Nautilus",
+    "Team2Picks": "Ezreal;Karma;Xin Zhao;Annie;Malphite"
+  },
+  {
+    "GameId": "82464",
+    "Team1Picks": "Lucian;Milio;Skarner;Sylas;Renekton",
+    "Team2Picks": "Xayah;Pantheon;Rakan;Ahri;Varus"
+  },
+  {
+    "GameId": "82460",
+    "Team1Picks": "Lucian;Pantheon;Milio;Ornn;Taliyah",
+    "Team2Picks": "Ezreal;Karma;Rumble;Trundle;Ryze"
+  },
+  {
+    "GameId": "82461",
+    "Team1Picks": "Lee Sin;Ashe;Seraphine;KSante;Azir",
+    "Team2Picks": "Kalista;Renata Glasc;Annie;Wukong;Gnar"
+  },
+  {
+    "GameId": "82765",
+    "Team1Picks": "Vi;Taliyah;Nautilus;Gnar;Annie",
+    "Team2Picks": "Kalista;Renata Glasc;Olaf;Viktor;Nocturne"
+  },
+  {
+    "GameId": "82766",
+    "Team1Picks": "Ashe;Seraphine;Akali;Lee Sin;Ambessa",
+    "Team2Picks": "Orianna;Caitlyn;Bard;Naafiri;KSante"
+  },
+  {
+    "GameId": "82767",
+    "Team1Picks": "Yunara;Lulu;Syndra;Sejuani;Camille",
+    "Team2Picks": "Jayce;Xayah;Rakan;Wukong;Sylas"
+  },
+  {
+    "GameId": "82770",
+    "Team1Picks": "Rumble;Renata Glasc;Kalista;Orianna;Wukong",
+    "Team2Picks": "Jarvan IV;KSante;Viktor;Jhin;Rakan"
+  },
+  {
+    "GameId": "82771",
+    "Team1Picks": "Nocturne;Ziggs;Nautilus;Jayce;Taliyah",
+    "Team2Picks": "Lulu;Yunara;Ryze;Chogath;Yorick"
+  },
+  {
+    "GameId": "82772",
+    "Team1Picks": "Lucian;Milio;Pantheon;Twisted Fate;Sylas",
+    "Team2Picks": "Syndra;Lee Sin;Gnar;Miss Fortune;Rell"
+  },
+  {
+    "GameId": "82987",
+    "Team1Picks": "Orianna;Kalista;Renata Glasc;Skarner;KSante",
+    "Team2Picks": "Lee Sin;Syndra;Rumble;Rakan;Xayah"
+  },
+  {
+    "GameId": "82988",
+    "Team1Picks": "Viktor;Nocturne;Gnar;Jinx;Thresh",
+    "Team2Picks": "Yunara;Lulu;Jarvan IV;Locke;Malphite"
+  },
+  {
+    "GameId": "82989",
+    "Team1Picks": "Vi;Kaisa;Galio;Nautilus;Dr. Mundo",
+    "Team2Picks": "Ezreal;Naafiri;Annie;Leona;Renekton"
+  },
+  {
+    "GameId": "82990",
+    "Team1Picks": "Lucian;Olaf;Milio;Wukong;Lissandra",
+    "Team2Picks": "Ashe;Seraphine;Trundle;Yone;Nidalee"
+  },
+  {
+    "GameId": "82991",
+    "Team1Picks": "Ryze;Xin Zhao;Ambessa;Miss Fortune;Alistar",
+    "Team2Picks": "Varus;Hwei;Shen;Aatrox;Poppy"
+  },
+  {
+    "GameId": "82992",
+    "Team1Picks": "Yunara;Lulu;Locke;Wukong;Gwen",
+    "Team2Picks": "Ezreal;Karma;Syndra;Xin Zhao;KSante"
+  },
+  {
+    "GameId": "82993",
+    "Team1Picks": "Rumble;Jhin;Yone;Seraphine;Trundle",
+    "Team2Picks": "Ryze;Kalista;Renata Glasc;Skarner;Varus"
+  },
+  {
+    "GameId": "82994",
+    "Team1Picks": "Naafiri;Jayce;Viktor;Alistar;Renekton",
+    "Team2Picks": "Jarvan IV;Ziggs;Camille;Orianna;Rakan"
+  },
+  {
+    "GameId": "82995",
+    "Team1Picks": "Kennen;Nocturne;Sylas;Corki;Shen",
+    "Team2Picks": "Gnar;Pantheon;Akali;Sivir;Rell"
+  },
+  {
+    "GameId": "82997",
+    "Team1Picks": "KSante;Qiyana;Syndra;Ashe;Karma",
+    "Team2Picks": "Rumble;Yunara;Lulu;Sylas;Pantheon"
+  },
+  {
+    "GameId": "82998",
+    "Team1Picks": "Lucian;Milio;Vi;Locke;Camille",
+    "Team2Picks": "Ezreal;Seraphine;Jarvan IV;Jayce;Hwei"
+  },
+  {
+    "GameId": "82999",
+    "Team1Picks": "Viktor;Ambessa;Ziggs;Alistar;Wukong",
+    "Team2Picks": "Orianna;Xayah;Rakan;Gnar;Naafiri"
+  },
+  {
+    "GameId": "83095",
+    "Team1Picks": "Lucian;Milio;Locke;KSante;Pantheon",
+    "Team2Picks": "Ezreal;Karma;Syndra;Gwen;Lee Sin"
+  },
+  {
+    "GameId": "83096",
+    "Team1Picks": "Kalista;Renata Glasc;Ornn;Qiyana;Annie",
+    "Team2Picks": "Rumble;Xayah;Rakan;Vi;Taliyah"
+  },
+  {
+    "GameId": "83097",
+    "Team1Picks": "Yunara;Lulu;Sion;Wukong;Lissandra",
+    "Team2Picks": "Jayce;Ziggs;Nautilus;Tristana;Ivern"
+  },
+  {
+    "GameId": "83098",
+    "Team1Picks": "Ashe;Seraphine;Ryze;Kled;Volibear",
+    "Team2Picks": "Jarvan IV;Olaf;Sylas;Varus;Alistar"
+  },
+  {
+    "GameId": "83099",
+    "Team1Picks": "Galio;Naafiri;Gnar;Kaisa;Amumu",
+    "Team2Picks": "Orianna;Shyvana;Camille;Jhin;Rell"
+  },
+  {
+    "GameId": "83238",
+    "Team1Picks": "Lucian;Milio;Qiyana;Ryze;Gnar",
+    "Team2Picks": "Wukong;Yunara;Lulu;Annie;Olaf"
+  },
+  {
+    "GameId": "83239",
+    "Team1Picks": "Renata Glasc;KSante;Kalista;Syndra;Xin Zhao",
+    "Team2Picks": "Rumble;Xayah;Rakan;Naafiri;Orianna"
+  },
+  {
+    "GameId": "83240",
+    "Team1Picks": "Lee Sin;Anivia;Jhin;Alistar;Galio",
+    "Team2Picks": "Jayce;Nautilus;Varus;Maokai;Locke"
+  },
+  {
+    "GameId": "83241",
+    "Team1Picks": "Caitlyn;Renekton;Leona;Lissandra;KhaZix",
+    "Team2Picks": "Jarvan IV;Ashe;Seraphine;Gwen;Twisted Fate"
   }
 ]
